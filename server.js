@@ -1,0 +1,55 @@
+
+import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const app = express();
+app.use(express.json({ limit: "1mb" }));
+app.use(express.static(__dirname));
+
+const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || "";
+const CHAT_ID = process.env.TELEGRAM_CHAT_ID || "";
+
+app.post("/api/lead", async (req, res) => {
+  try {
+    const { name = "", phone = "", product = "", comment = "" } = req.body || {};
+    if (!name || !phone || !product) {
+      return res.status(400).json({ ok: false, error: "Заполните имя, телефон и тип мебели." });
+    }
+
+    if (!BOT_TOKEN || !CHAT_ID) {
+      return res.json({ ok: true, note: "Telegram not configured" });
+    }
+
+    const text = [
+      "Новая заявка с сайта Квадро",
+      `Имя: ${name}`,
+      `Телефон: ${phone}`,
+      `Заказ: ${product}`,
+      `Комментарий: ${comment || "-"}`,
+    ].join("\n");
+
+    const tgRes = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: CHAT_ID, text }),
+    });
+
+    const json = await tgRes.json();
+    if (!json.ok) {
+      return res.status(500).json({ ok: false, error: "Не удалось отправить в Telegram." });
+    }
+
+    return res.json({ ok: true });
+  } catch (err) {
+    return res.status(500).json({ ok: false, error: "Внутренняя ошибка сервера." });
+  }
+});
+
+app.get("/health", (_, res) => res.json({ ok: true }));
+
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log(`Kvadro site running on http://localhost:${port}`));
