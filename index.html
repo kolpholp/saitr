@@ -12,7 +12,37 @@
   <link rel="stylesheet" href="assets/style.css">
   <style>
     html { scroll-behavior: smooth; }
-    body { font-family: 'Inter', sans-serif; }
+    body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+
+    .top {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .top .row { position: relative; }
+
+    .mobile-menu {
+      display: none;
+    }
+
+    .mobile-menu.show,
+    .mobile-menu.is-open {
+      display: grid;
+      gap: 10px;
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 0;
+      right: 0;
+      padding: 14px;
+      border-radius: 20px;
+      background: rgba(7, 10, 16, .96);
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: 0 24px 80px rgba(0,0,0,.35);
+      z-index: 80;
+    }
 
     .hero-media {
       position: relative;
@@ -54,8 +84,7 @@
       content: "";
       position: absolute;
       inset: -20%;
-      background:
-        linear-gradient(120deg, transparent 30%, rgba(255,255,255,.10) 45%, transparent 60%);
+      background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,.10) 45%, transparent 60%);
       transform: translateX(-35%);
       animation: sweep 1.9s ease-in-out infinite;
       opacity: .8;
@@ -136,20 +165,43 @@
       aspect-ratio: 9 / 16;
     }
 
-    .top {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-    }
-
-    .mobile-menu {
+    .lightbox {
+      position: fixed;
+      inset: 0;
       display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      z-index: 120;
+      background: rgba(5,7,12,.88);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
 
-    .mobile-menu.is-open {
-      display: grid;
+    .lightbox.show { display: flex; }
+
+    .lightbox .frame {
+      position: relative;
+      max-width: min(1100px, 100%);
+      width: 100%;
+      max-height: 90vh;
+    }
+
+    .lightbox img {
+      width: 100%;
+      max-height: 90vh;
+      object-fit: contain;
+      border-radius: 24px;
+      background: #0c1018;
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: 0 24px 80px rgba(0,0,0,.45);
+    }
+
+    .lightbox .close {
+      position: absolute;
+      right: 0;
+      top: -56px;
+      z-index: 2;
     }
 
     @keyframes logoPulse {
@@ -170,7 +222,7 @@
     }
 
     @media (max-width: 900px) {
-      .hero-overlay { left: 12px; bottom: 12px; right: 12px; }
+      .hero-overlay { left: 12px; right: 12px; bottom: 12px; }
       .hero-overlay .label { font-size: 12px; }
     }
   </style>
@@ -286,7 +338,7 @@
 
         <div class="works">
           <article class="work big fade">
-            <img src="assets/photos/kitchen_05.jpg" alt="Кухня с подсветкой">
+            <img data-lightbox src="assets/photos/kitchen_05.jpg" alt="Кухня с подсветкой">
             <div class="meta">
               <div class="chip">Кухня • современный стиль</div>
               <h3>Кухня с чистой геометрией и подсветкой</h3>
@@ -295,7 +347,7 @@
           </article>
 
           <article class="work small fade">
-            <img src="assets/photos/hall_09.jpg" alt="Шкаф в прихожую">
+            <img data-lightbox src="assets/photos/hall_09.jpg" alt="Шкаф в прихожую">
             <div class="meta">
               <div class="chip">Прихожая • встроенное хранение</div>
               <h3>Большой шкаф в прихожую</h3>
@@ -304,7 +356,7 @@
           </article>
 
           <article class="work small fade">
-            <img src="assets/photos/living_03.jpg" alt="Стенка в зал">
+            <img data-lightbox src="assets/photos/living_03.jpg" alt="Стенка в зал">
             <div class="meta">
               <div class="chip">Стенка • ТВ-зона</div>
               <h3>Стенка в зал с подсветкой</h3>
@@ -313,7 +365,7 @@
           </article>
 
           <article class="work big fade">
-            <img src="assets/photos/kitchen_10.jpg" alt="Кухня со встроенной техникой">
+            <img data-lightbox src="assets/photos/kitchen_10.jpg" alt="Кухня со встроенной техникой">
             <div class="meta">
               <div class="chip">Кухня • светлый интерьер</div>
               <h3>Кухня со встроенной техникой</h3>
@@ -322,7 +374,7 @@
           </article>
 
           <article class="work small fade">
-            <img src="assets/photos/hall_10.jpg" alt="Шкаф-купе">
+            <img data-lightbox src="assets/photos/hall_10.jpg" alt="Шкаф-купе">
             <div class="meta">
               <div class="chip">Шкаф • белый минимализм</div>
               <h3>Шкаф под потолок</h3>
@@ -331,7 +383,7 @@
           </article>
 
           <article class="work small fade">
-            <img src="assets/photos/living_05.jpg" alt="ТВ-зона">
+            <img data-lightbox src="assets/photos/living_05.jpg" alt="ТВ-зона">
             <div class="meta">
               <div class="chip">Гостиная • подсветка</div>
               <h3>ТВ-зона с мягким светом</h3>
@@ -347,7 +399,7 @@
         <div class="section-head">
           <div>
             <h2>Видео-истории</h2>
-            <p>Клип запускается сам вверху страницы. Ниже — ещё один блок с видео и короткой подачей.</p>
+            <p>Первый ролик запускается сам в верхнем блоке. Ниже — ещё один ракурс и готовая подача.</p>
           </div>
         </div>
 
@@ -503,7 +555,7 @@
 
         <div class="reviews">
           <article class="review fade">
-            <img src="assets/photos/kitchen_10.jpg" alt="Отзыв о кухне">
+            <img data-lightbox src="assets/photos/kitchen_10.jpg" alt="Отзыв о кухне">
             <div class="body">
               <div class="stars">★★★★★</div>
               <h3>Анна</h3>
@@ -512,7 +564,7 @@
           </article>
 
           <article class="review fade">
-            <img src="assets/photos/hall_10.jpg" alt="Отзыв о прихожей">
+            <img data-lightbox src="assets/photos/hall_10.jpg" alt="Отзыв о прихожей">
             <div class="body">
               <div class="stars">★★★★★</div>
               <h3>Игорь</h3>
@@ -521,7 +573,7 @@
           </article>
 
           <article class="review fade">
-            <img src="assets/photos/living_05.jpg" alt="Отзыв о стенке">
+            <img data-lightbox src="assets/photos/living_05.jpg" alt="Отзыв о стенке">
             <div class="body">
               <div class="stars">★★★★☆</div>
               <h3>Марина</h3>
@@ -617,96 +669,22 @@
     </div>
   </div>
 
+  <script src="assets/app.js"></script>
   <script>
-    const burger = document.querySelector('[data-burger]');
-    const mobileMenu = document.querySelector('[data-mobile-menu]');
-
-    if (burger && mobileMenu) {
-      burger.addEventListener('click', () => mobileMenu.classList.toggle('is-open'));
-      mobileMenu.querySelectorAll('a').forEach(a => {
-        a.addEventListener('click', () => mobileMenu.classList.remove('is-open'));
-      });
-    }
-
     const heroIntro = document.getElementById('heroIntro');
-    if (heroIntro) {
-      setTimeout(() => {
-        heroIntro.style.display = 'none';
-      }, 4800);
-    }
+    const heroVideo = document.getElementById('heroVideo');
 
-    const fmt = new Intl.NumberFormat('ru-RU');
-    const priceEl = document.getElementById('price');
-    const monthlyEl = document.getElementById('monthly');
-    const typeEl = document.getElementById('type');
-    const materialEl = document.getElementById('material');
-    const areaEl = document.getElementById('area');
-    const complexityEl = document.getElementById('complexity');
+    window.addEventListener('load', () => {
+      if (heroVideo) {
+        heroVideo.play().catch(() => {});
+      }
 
-    const baseByType = {
-      kitchen: 260000,
-      wardrobe: 180000,
-      closet: 220000,
-      kids: 170000,
-      office: 140000
-    };
-
-    const materialMul = {
-      ldsp: 1.00,
-      mdf: 1.18,
-      acrylic: 1.28,
-      premium: 1.52
-    };
-
-    function updateCalc() {
-      if (!priceEl || !monthlyEl) return;
-      const type = typeEl?.value || 'kitchen';
-      const material = materialEl?.value || 'ldsp';
-      const area = Number(areaEl?.value || 8);
-      const complexity = Number(complexityEl?.value || 2);
-
-      const base = baseByType[type] || 200000;
-      const areaMul = 0.75 + (area / 20) * 1.15;
-      const complexityMul = 0.88 + (complexity * 0.08);
-      const raw = Math.round(base * materialMul[material] * areaMul * complexityMul);
-      const rounded = Math.round(raw / 1000) * 1000;
-      const month = Math.round(rounded / 6);
-
-      priceEl.textContent = `≈ ${fmt.format(rounded)} ₽`;
-      monthlyEl.textContent = `Рассрочка: ≈ ${fmt.format(month)} ₽ / мес`;
-    }
-
-    [typeEl, materialEl, areaEl, complexityEl].forEach(el => {
-      if (el) el.addEventListener('input', updateCalc);
-      if (el) el.addEventListener('change', updateCalc);
+      if (heroIntro) {
+        setTimeout(() => {
+          heroIntro.style.display = 'none';
+        }, 4800);
+      }
     });
-    updateCalc();
-
-    const form = document.getElementById('leadForm');
-    const status = document.getElementById('status');
-
-    if (form && status) {
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const data = Object.fromEntries(new FormData(form).entries());
-
-        status.textContent = 'Отправка...';
-        try {
-          const res = await fetch('/api/lead', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-          });
-
-          if (!res.ok) throw new Error('bad_response');
-
-          form.reset();
-          status.textContent = 'Заявка отправлена.';
-        } catch (err) {
-          status.textContent = 'Не удалось отправить заявку. Проверь сервер или endpoint.';
-        }
-      });
-    }
   </script>
 </body>
 </html>
