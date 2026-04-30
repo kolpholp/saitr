@@ -61,13 +61,14 @@
       isolation: isolate;
     }
 
-    .hero-vk {
+    .hero-video {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
-      border: 0;
+      object-fit: cover;
       display: block;
+      transform: scale(1.01);
     }
 
     .hero-intro {
@@ -318,13 +319,17 @@
 
         <div class="hero-art fade">
           <div class="hero-media">
-            <iframe
-              class="hero-vk"
-              src="https://vkvideo.ru/video_ext.php?oid=-116770601&id=456239017&hd=2&autoplay=1"
-              allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
-              allowfullscreen
-              title="Видео Квадро">
-            </iframe>
+            <video
+              id="heroVideo"
+              class="hero-video"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="auto"
+              poster="assets/photos/video_poster_hero.jpg">
+              <source src="assets/video/hero.mov" type="video/quicktime">
+            </video>
 
             <div class="hero-intro" id="heroIntro">
               <div class="hero-intro__inner">
@@ -415,7 +420,7 @@
         <div class="section-head">
           <div>
             <h2>Видео-истории</h2>
-            <p>Верхний ролик стоит отдельным акцентом, ниже — второй ролик и короткий блок с пояснением.</p>
+            <p>Первый ролик вверху страницы — локальный hero.mov с автоплеем. Ниже — два видео с VK.</p>
           </div>
         </div>
 
@@ -423,14 +428,14 @@
           <div class="video-card fade">
             <div class="vk-frame">
               <iframe
-                src="https://vkvideo.ru/video_ext.php?oid=-116770601&id=456239017&hd=2&autoplay=1"
+                src="https://vkvideo.ru/video_ext.php?oid=-116770601&id=456239017&hd=2"
                 allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
                 allowfullscreen
-                title="Видео 1 Квадро">
+                title="Видео 2 Квадро">
               </iframe>
             </div>
             <div class="cap">
-              <b>Видео 1 — кухни и прихожие</b>
+              <b>Видео 2 — кухни и прихожие</b>
               <span>Ролик с реального объекта.</span>
             </div>
           </div>
@@ -438,7 +443,7 @@
           <div class="video-stack fade">
             <div class="video-poster">
               <img src="assets/photos/video_poster_secondary.jpg" alt="Видео и проекты">
-              <div class="tag">Видео 2 — готовые проекты</div>
+              <div class="tag">Видео 3 — готовые проекты</div>
             </div>
 
             <div class="sheet">
@@ -455,7 +460,7 @@
                   src="https://vkvideo.ru/video_ext.php?oid=-116770601&id=456239019"
                   allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
                   allowfullscreen
-                  title="Видео 2 Квадро">
+                  title="Видео 3 Квадро">
                 </iframe>
               </div>
             </div>
@@ -722,7 +727,6 @@
   <script src="assets/app.js"></script>
   <script>
     const heroIntro = document.getElementById('heroIntro');
-
     window.addEventListener('load', () => {
       if (heroIntro) {
         setTimeout(() => {
