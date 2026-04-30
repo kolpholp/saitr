@@ -12,7 +12,10 @@
   <link rel="stylesheet" href="assets/style.css">
   <style>
     html { scroll-behavior: smooth; }
-    body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    body {
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: #06090f;
+    }
 
     .top {
       position: sticky;
@@ -47,7 +50,10 @@
     .hero-media {
       position: relative;
       width: 100%;
-      aspect-ratio: 16 / 9;
+      aspect-ratio: 9 / 16;
+      min-height: 560px;
+      max-width: 430px;
+      margin-left: auto;
       overflow: hidden;
       border-radius: 28px;
       background: #0b0f18;
@@ -55,14 +61,13 @@
       isolation: isolate;
     }
 
-    .hero-video {
+    .hero-vk {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      border: 0;
       display: block;
-      transform: scale(1.01);
     }
 
     .hero-intro {
@@ -149,20 +154,28 @@
       -webkit-backdrop-filter: blur(10px);
     }
 
-    .video-card video {
+    .vk-frame {
+      position: relative;
       width: 100%;
-      display: block;
-      object-fit: cover;
+      aspect-ratio: 9 / 16;
+      overflow: hidden;
       border-radius: 24px;
       background: #0b0f18;
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 18px 60px rgba(0,0,0,.28);
     }
 
-    .video-card--wide video {
+    .vk-frame--wide {
       aspect-ratio: 16 / 9;
     }
 
-    .video-card--tall video {
-      aspect-ratio: 9 / 16;
+    .vk-frame iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
     }
 
     .lightbox {
@@ -221,6 +234,13 @@
       100% { opacity: 0; transform: scale(1.03); visibility: hidden; }
     }
 
+    @media (max-width: 1100px) {
+      .hero-media {
+        max-width: none;
+        min-height: 0;
+      }
+    }
+
     @media (max-width: 900px) {
       .hero-overlay { left: 12px; right: 12px; bottom: 12px; }
       .hero-overlay .label { font-size: 12px; }
@@ -269,7 +289,7 @@
         <div class="fade">
           <div class="pill">0% рассрочка • бесплатный замер • бесплатная установка и проект</div>
           <h1>Квадро делает мебель, которая точно встаёт в интерьер и выглядит дороже своей цены.</h1>
-          <p class="lead">Реальные фото, автозапуск первого видео, калькулятор, отзывы и форма заявки. Сайт адаптирован под телефон и компьютер.</p>
+          <p class="lead">Реальные фото объектов, VK-видео, калькулятор, отзывы и форма заявки. Сайт адаптирован под телефон и компьютер.</p>
 
           <div class="cta">
             <a class="btn primary" href="#contact">Оставить заявку</a>
@@ -298,17 +318,13 @@
 
         <div class="hero-art fade">
           <div class="hero-media">
-            <video
-              id="heroVideo"
-              class="hero-video"
-              autoplay
-              muted
-              loop
-              playsinline
-              preload="auto"
-              poster="assets/photos/video_poster_hero.jpg">
-              <source src="assets/video/hero.mov" type="video/quicktime">
-            </video>
+            <iframe
+              class="hero-vk"
+              src="https://vkvideo.ru/video_ext.php?oid=-116770601&id=456239017&hd=2&autoplay=1"
+              allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+              allowfullscreen
+              title="Видео Квадро">
+            </iframe>
 
             <div class="hero-intro" id="heroIntro">
               <div class="hero-intro__inner">
@@ -332,7 +348,7 @@
         <div class="section-head">
           <div>
             <h2>Лучшие работы</h2>
-            <p>Самые сильные кадры вынесены наверх и сразу показывают уровень компании.</p>
+            <p>Карточки подписаны в соответствии с тем, что на фото видно сразу.</p>
           </div>
         </div>
 
@@ -341,8 +357,8 @@
             <img data-lightbox src="assets/photos/kitchen_05.jpg" alt="Кухня с подсветкой">
             <div class="meta">
               <div class="chip">Кухня • современный стиль</div>
-              <h3>Кухня с чистой геометрией и подсветкой</h3>
-              <p>Аккуратные фасады, рабочая зона и спокойная композиция.</p>
+              <h3>Кухня с тёплой подсветкой</h3>
+              <p>Чистые фасады, мягкий свет и аккуратная рабочая зона.</p>
             </div>
           </article>
 
@@ -350,44 +366,44 @@
             <img data-lightbox src="assets/photos/hall_09.jpg" alt="Шкаф в прихожую">
             <div class="meta">
               <div class="chip">Прихожая • встроенное хранение</div>
-              <h3>Большой шкаф в прихожую</h3>
-              <p>Подходит для демонстрации хранения и работы с нишей.</p>
+              <h3>Шкаф в прихожую до потолка</h3>
+              <p>Максимум хранения без лишней визуальной нагрузки.</p>
             </div>
           </article>
 
           <article class="work small fade">
-            <img data-lightbox src="assets/photos/living_03.jpg" alt="Стенка в зал">
+            <img data-lightbox src="assets/photos/living_03.jpg" alt="Гостиная с ТВ-зоной">
             <div class="meta">
-              <div class="chip">Стенка • ТВ-зона</div>
-              <h3>Стенка в зал с подсветкой</h3>
-              <p>Формат, который хорошо продаёт мебель в гостиную.</p>
+              <div class="chip">Гостиная • ТВ-зона</div>
+              <h3>Стенка в зал с открытыми нишами</h3>
+              <p>Понятная композиция, которая хорошо показывает объём работ.</p>
             </div>
           </article>
 
           <article class="work big fade">
             <img data-lightbox src="assets/photos/kitchen_10.jpg" alt="Кухня со встроенной техникой">
             <div class="meta">
-              <div class="chip">Кухня • светлый интерьер</div>
+              <div class="chip">Кухня • встроенная техника</div>
               <h3>Кухня со встроенной техникой</h3>
-              <p>Показывает уровень монтажа и чистую линию фасадов.</p>
+              <p>Ровная линия фасадов и аккуратная интеграция техники.</p>
             </div>
           </article>
 
           <article class="work small fade">
-            <img data-lightbox src="assets/photos/hall_10.jpg" alt="Шкаф-купе">
+            <img data-lightbox src="assets/photos/hall_10.jpg" alt="Встроенный шкаф">
             <div class="meta">
               <div class="chip">Шкаф • белый минимализм</div>
-              <h3>Шкаф под потолок</h3>
-              <p>Чистая форма, высокие фасады и удобная система хранения.</p>
+              <h3>Встроенный шкаф в светлой прихожей</h3>
+              <p>Строгая форма, удобный доступ и спокойная геометрия.</p>
             </div>
           </article>
 
           <article class="work small fade">
-            <img data-lightbox src="assets/photos/living_05.jpg" alt="ТВ-зона">
+            <img data-lightbox src="assets/photos/living_05.jpg" alt="ТВ-зона с подсветкой">
             <div class="meta">
               <div class="chip">Гостиная • подсветка</div>
               <h3>ТВ-зона с мягким светом</h3>
-              <p>Добавляет интерьеру премиальности и визуальной глубины.</p>
+              <p>Добавляет интерьеру глубину и более дорогой вид.</p>
             </div>
           </article>
         </div>
@@ -399,23 +415,23 @@
         <div class="section-head">
           <div>
             <h2>Видео-истории</h2>
-            <p>Первый ролик запускается сам в верхнем блоке. Ниже — ещё один ракурс и готовая подача.</p>
+            <p>Верхний ролик стоит отдельным акцентом, ниже — второй ролик и короткий блок с пояснением.</p>
           </div>
         </div>
 
         <div class="video-grid">
           <div class="video-card fade">
-            <video
-              controls
-              playsinline
-              preload="metadata"
-              poster="assets/photos/video_poster_hero.jpg"
-              class="video-card--tall">
-              <source src="assets/video/hero.mov" type="video/quicktime">
-            </video>
+            <div class="vk-frame">
+              <iframe
+                src="https://vkvideo.ru/video_ext.php?oid=-116770601&id=456239017&hd=2&autoplay=1"
+                allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+                allowfullscreen
+                title="Видео 1 Квадро">
+              </iframe>
+            </div>
             <div class="cap">
               <b>Видео 1 — кухни и прихожие</b>
-              <span>Укороченная версия для сайта.</span>
+              <span>Ролик с реального объекта.</span>
             </div>
           </div>
 
@@ -428,20 +444,20 @@
             <div class="sheet">
               <b style="display:block;margin-bottom:8px;font-size:18px">Почему это работает</b>
               <div class="small" style="line-height:1.75">
-                Видео делает сайт живым и подтверждает, что работы реальные. Для мебели это особенно важно.
+                Видео показывает реальные объекты и помогает быстрее объяснить уровень работы компании.
               </div>
-              <div class="hint">Если позже добавишь второй ролик, его можно вставить сюда без переделки дизайна.</div>
+              <div class="hint">При необходимости сюда можно подставить новый ролик без переделки дизайна.</div>
             </div>
 
             <div class="video-card">
-              <video
-                controls
-                playsinline
-                preload="metadata"
-                poster="assets/photos/video_poster_secondary.jpg"
-                class="video-card--wide">
-                <source src="assets/video/hero.mov" type="video/quicktime">
-              </video>
+              <div class="vk-frame vk-frame--wide">
+                <iframe
+                  src="https://vkvideo.ru/video_ext.php?oid=-116770601&id=456239019"
+                  allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+                  allowfullscreen
+                  title="Видео 2 Квадро">
+                </iframe>
+              </div>
             </div>
           </div>
         </div>
@@ -453,7 +469,7 @@
         <div class="section-head">
           <div>
             <h2>Что делаем</h2>
-            <p>Кухни, шкафы, прихожие, стенки и гардеробные — весь основной ассортимент в одном месте.</p>
+            <p>Набор услуг собран так, чтобы соответствовать реальным фото и видео на странице.</p>
           </div>
         </div>
 
@@ -477,6 +493,40 @@
             <div class="ico">С</div>
             <h3>Стенки в зал</h3>
             <p>ТВ-зоны, декоративные ниши, подсветка, полки и закрытое хранение.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>Как проходит заказ</h2>
+            <p>Пошаговая схема без лишних слов.</p>
+          </div>
+        </div>
+
+        <div class="timeline">
+          <div class="timeline-item fade">
+            <div class="n">01</div>
+            <h3>Заявка</h3>
+            <p>Клиент оставляет контакт или пишет в Telegram.</p>
+          </div>
+          <div class="timeline-item fade">
+            <div class="n">02</div>
+            <h3>Замер</h3>
+            <p>Специалист выезжает на объект и фиксирует размеры.</p>
+          </div>
+          <div class="timeline-item fade">
+            <div class="n">03</div>
+            <h3>Проект</h3>
+            <p>Подбираются материалы, фурнитура и компоновка.</p>
+          </div>
+          <div class="timeline-item fade">
+            <div class="n">04</div>
+            <h3>Монтаж</h3>
+            <p>Доставка, сборка и установка с финальной проверкой.</p>
           </div>
         </div>
       </div>
@@ -549,7 +599,7 @@
         <div class="section-head">
           <div>
             <h2>Отзывы</h2>
-            <p>Можно заменить на реальные скрины из VK или мессенджеров.</p>
+            <p>Карточки можно менять на реальные скрины из VK или мессенджеров.</p>
           </div>
         </div>
 
@@ -672,13 +722,8 @@
   <script src="assets/app.js"></script>
   <script>
     const heroIntro = document.getElementById('heroIntro');
-    const heroVideo = document.getElementById('heroVideo');
 
     window.addEventListener('load', () => {
-      if (heroVideo) {
-        heroVideo.play().catch(() => {});
-      }
-
       if (heroIntro) {
         setTimeout(() => {
           heroIntro.style.display = 'none';
