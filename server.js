@@ -10,39 +10,49 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
-// middleware
+// ===== middleware =====
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
 
-// env
+// ===== env =====
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
-// API
+// ===== health check =====
+app.get("/api/health", (req, res) => {
+  res.json({ ok: true });
+});
+
+// ===== lead form =====
 app.post("/api/lead", async (req, res) => {
   try {
+    console.log("📩 DATA:", req.body);
+
     const { name, phone, product, comment } = req.body;
 
-    if (!name || !phone || !product) {
-      return res.status(400).json({
+    // мягкая валидация (не ломает фронт)
+    if (!name || !phone) {
+      return res.json({
         ok: false,
-        error: "Заполните имя, телефон и тип мебели"
+        error: "Введите имя и телефон"
       });
     }
 
+    // если нет телеги — просто не падаем
     if (!BOT_TOKEN || !CHAT_ID) {
-      console.log("Telegram не настроен");
+      console.log("⚠ Telegram не настроен");
       return res.json({ ok: true });
     }
 
-    const text = [
-      "Новая заявка с сайта Квадро",
-      `Имя: ${name}`,
-      `Телефон: ${phone}`,
-      `Заказ: ${product}`,
-      `Комментарий: ${comment || "-"}`
-    ].join("\n");
+    const text = `
+📩 Новая заявка с сайта Квадро
+
+👤 Имя: ${name}
+📞 Телефон: ${phone}
+📦 Заказ: ${product || "-"}
+💬 Комментарий: ${comment || "-"}
+`;
 
     const tg = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
       method: "POST",
@@ -58,25 +68,26 @@ app.post("/api/lead", async (req, res) => {
     const data = await tg.json();
 
     if (!data.ok) {
-      console.log("Ошибка Telegram:", data);
-      return res.status(500).json({ ok: false });
+      console.log("❌ Ошибка Telegram:", data);
+      return res.json({ ok: false });
     }
 
     return res.json({ ok: true });
 
   } catch (err) {
-    console.log("Ошибка сервера:", err);
-    return res.status(500).json({ ok: false });
+    console.log("❌ Ошибка сервера:", err);
+    return res.json({ ok: false });
   }
 });
 
-// проверка
-app.get("/health", (req, res) => {
-  res.json({ ok: true });
+// ===== fallback (чтобы SPA не ломалась) =====
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
-// запуск
+// ===== запуск =====
 const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
-  console.log("Server running on port " + PORT);
+  console.log("🚀 Server running on port " + PORT);
 });
