@@ -25,9 +25,7 @@
       -webkit-backdrop-filter: blur(18px);
     }
 
-    .top .row {
-      position: relative;
-    }
+    .top .row { position: relative; }
 
     .mobile-menu {
       display: none;
@@ -181,21 +179,6 @@
       display: block;
     }
 
-    .video-stack {
-      display: grid;
-      gap: 18px;
-      align-self: stretch;
-      min-height: 100%;
-      grid-template-rows: auto auto minmax(340px, 1fr);
-    }
-
-    .video-stack .video-card:last-child,
-    .video-stack .video-card:last-child .vk-frame {
-      height: 100%;
-      min-height: 340px;
-      aspect-ratio: auto;
-    }
-
     .lightbox {
       position: fixed;
       inset: 0;
@@ -209,9 +192,7 @@
       -webkit-backdrop-filter: blur(8px);
     }
 
-    .lightbox.show {
-      display: flex;
-    }
+    .lightbox.show { display: flex; }
 
     .lightbox .frame {
       position: relative;
@@ -236,7 +217,29 @@
       top: -56px;
       z-index: 2;
     }
+.video-stack{
+  display:grid;
+  gap:18px;
+  align-self:stretch;
+  min-height:100%;
+  grid-template-rows:auto auto minmax(420px, 1fr);
+}
 
+.video-stack .video-card:last-child{
+  height:100%;
+  min-height:420px;
+}
+
+.video-stack .video-card:last-child .vk-frame{
+  height:100%;
+  min-height:420px;
+  aspect-ratio:auto;
+}
+
+.video-stack .video-card:last-child iframe{
+  width:100%;
+  height:100%;
+}
     @keyframes logoPulse {
       from { transform: scale(1); opacity: .9; }
       to { transform: scale(1.06); opacity: 1; }
@@ -259,27 +262,11 @@
         max-width: none;
         min-height: 0;
       }
-
-      .video-stack {
-        grid-template-rows: auto auto auto;
-      }
     }
 
     @media (max-width: 900px) {
-      .hero-overlay {
-        left: 12px;
-        right: 12px;
-        bottom: 12px;
-      }
-
-      .hero-overlay .label {
-        font-size: 12px;
-      }
-
-      .video-stack .video-card:last-child,
-      .video-stack .video-card:last-child .vk-frame {
-        min-height: 260px;
-      }
+      .hero-overlay { left: 12px; right: 12px; bottom: 12px; }
+      .hero-overlay .label { font-size: 12px; }
     }
   </style>
 </head>
@@ -362,8 +349,9 @@
               loop
               playsinline
               preload="auto"
-              poster="assets/photos/video_poster_hero.jpg">
-              <source src="assets/video/hero.mov" type="video/quicktime">
+               poster="assets/photos/video_poster_hero.jpg"
+              >
+              <source src="assets/video/hero.mp4"  type="video/mp4">
             </video>
 
             <div class="hero-intro" id="heroIntro">
@@ -387,8 +375,7 @@
       <div class="wrap">
         <div class="section-head">
           <div>
-            <h2>Лучшие работы</h2>
-            <p>Карточки подписаны в соответствии с тем, что видно на фото.</p>
+            <h2>Наши работы</h2>
           </div>
         </div>
 
@@ -403,7 +390,7 @@
           </article>
 
           <article class="work small fade">
-            <img data-lightbox src="assets/photos/hall_09.jpg" alt="Шкаф в прихожую">
+            <img data-lightbox src="assets/photos/living_05.jpg" alt="Шкаф в прихожую">
             <div class="meta">
               <div class="chip">Прихожая • встроенное хранение</div>
               <h3>Шкаф в прихожую до потолка</h3>
@@ -412,7 +399,7 @@
           </article>
 
           <article class="work small fade">
-            <img data-lightbox src="assets/photos/living_03.jpg" alt="Гостиная с ТВ-зоной">
+            <img data-lightbox src="assets/photos/tv-open.jpg" alt="Гостиная с ТВ-зоной">
             <div class="meta">
               <div class="chip">Гостиная • ТВ-зона</div>
               <h3>Стенка в зал с открытыми нишами</h3>
@@ -439,7 +426,7 @@
           </article>
 
           <article class="work small fade">
-            <img data-lightbox src="assets/photos/living_05.jpg" alt="ТВ-зона с подсветкой">
+            <img data-lightbox src="assets/photos/tv.jpg" alt="ТВ-зона с подсветкой">
             <div class="meta">
               <div class="chip">Гостиная • подсветка</div>
               <h3>ТВ-зона с мягким светом</h3>
@@ -455,7 +442,6 @@
         <div class="section-head">
           <div>
             <h2>Видео-истории</h2>
-            <p>Первый ролик вверху страницы — локальный hero.mov с автоплеем. Ниже — два видео с VK.</p>
           </div>
         </div>
 
@@ -463,32 +449,17 @@
           <div class="video-card fade">
             <div class="vk-frame">
               <iframe
-                src="https://vkvideo.ru/video_ext.php?oid=-116770601&id=456239017&hd=2&autoplay=1"
+                src="https://vkvideo.ru/video_ext.php?oid=-116770601&id=456239017&hd=2"
                 allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
                 allowfullscreen
                 title="Видео 2 Квадро">
               </iframe>
             </div>
             <div class="cap">
-              <b>Видео 2 — кухни и прихожие</b>
+      
               <span>Ролик с реального объекта.</span>
             </div>
           </div>
-
-          <div class="video-stack fade">
-            <div class="video-poster">
-              <img src="assets/photos/video_poster_secondary.jpg" alt="Видео и проекты">
-              <div class="tag">Видео 3 — готовые проекты</div>
-            </div>
-
-            <div class="sheet">
-              <b style="display:block;margin-bottom:8px;font-size:18px">Почему это работает</b>
-              <div class="small" style="line-height:1.75">
-                Видео показывает реальные объекты и помогает быстрее объяснить уровень работы компании.
-              </div>
-              <div class="hint">При необходимости сюда можно подставить новый ролик без переделки дизайна.</div>
-            </div>
-
             <div class="video-card">
               <div class="vk-frame vk-frame--wide">
                 <iframe
