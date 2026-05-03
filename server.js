@@ -19,19 +19,19 @@ app.use(express.static(__dirname));
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
-// ===== health check =====
+// ===== health =====
 app.get("/api/health", (req, res) => {
   res.json({ ok: true });
 });
 
-// ===== lead form =====
+// ===== API =====
 app.post("/api/lead", async (req, res) => {
   try {
     console.log("📩 DATA:", req.body);
 
     const { name, phone, product, comment } = req.body;
 
-    // мягкая валидация (не ломает фронт)
+    // мягкая проверка
     if (!name || !phone) {
       return res.json({
         ok: false,
@@ -68,24 +68,27 @@ app.post("/api/lead", async (req, res) => {
     const data = await tg.json();
 
     if (!data.ok) {
-      console.log("❌ Ошибка Telegram:", data);
+      console.log("❌ Telegram error:", data);
       return res.json({ ok: false });
     }
 
     return res.json({ ok: true });
 
   } catch (err) {
-    console.log("❌ Ошибка сервера:", err);
+    console.log("❌ Server error:", err);
     return res.json({ ok: false });
   }
 });
 
-// ===== fallback (чтобы SPA не ломалась) =====
-app.get("*", (req, res) => {
+// ===== ВАЖНО: fallback НЕ трогает /api =====
+app.get("*", (req, res, next) => {
+  if (req.path.startsWith("/api/")) {
+    return next();
+  }
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
-// ===== запуск =====
+// ===== start =====
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
